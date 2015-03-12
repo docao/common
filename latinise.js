@@ -1,4 +1,4 @@
-var latinise1 = function(a) {
+var latiniseChar1 = function(a) {
 	a = a.charCodeAt(0);
 	switch (true) {
 	case (192 <= a && 195 >= a): return 'A';
@@ -35,7 +35,7 @@ var latinise1 = function(a) {
 	}
 };
 
-var latinise2 = function(a) {
+var latiniseChar2 = function(a) {
 	a = a.charCodeAt(0);
 	switch (true) {
 	case ((192 <= a && 195 >= a) || (224 <= a && 227 >= a) || (258 <= a && 259 >= a) || (7840 <= a && 7863 >= a)):
@@ -57,10 +57,10 @@ var latinise2 = function(a) {
 	}
 };
 
-var latiniseChar1 = function(text) {
+var latinise1 = function(text) {
 	return text.replace(/[^A-Za-z0-9]/g, latiniseChar1)
 }
 
-var latiniseChar2 = function(text) {
+var latinise2 = function(text) {
 	return text.replace(/[^A-Za-z0-9]/g, latiniseChar2)
 }
