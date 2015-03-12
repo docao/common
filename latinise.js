@@ -58,9 +58,9 @@ var latiniseChar2 = function(a) {
 };
 
 var latinise1 = function(text) {
-	return text.replace(/[^A-Za-z0-9]/g, latiniseChar1)
+	return text.replace(/[^A-Za-z0-9\s]/g, latiniseChar1)
 }
 
 var latinise2 = function(text) {
-	return text.replace(/[^A-Za-z0-9]/g, latiniseChar2)
+	return text.replace(/[^A-Za-z0-9\s]/g, latiniseChar2)
 }
