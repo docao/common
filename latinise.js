@@ -45,3 +45,11 @@ var latiniseChar2 = function(a) {
 	if ((272 == a) || (273 == a)) return 'd';
 	return '';
 };
+
+var latiniseChar1 = function(text) {
+	return text.replace(/[^A-Za-z0-9]/g, latiniseChar1)
+}
+
+var latiniseChar2 = function(text) {
+	return text.replace(/[^A-Za-z0-9]/g, latiniseChar2)
+}
