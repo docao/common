@@ -1,17 +1,17 @@
-$(document).ready(function () {
-		var idleState = false;
-		var idleTimer = null;
-        $(document).bind('mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick', function () {
-            clearTimeout(idleTimer);
-            if (idleState == true) { 
-                $("body").css('background-color','#fff');            
-$("body").css('opacity',1);
-            }
-            idleState = false;
-            idleTimer = setTimeout(function () { 
-				$("body").css('background-color','#000');
-$("body").css('opacity',0.3);
-                idleState = true; }, 60000);
-        });
-        $("body").trigger("mousemove");
-    });
+var idleState = false;
+	var idleTimer = null;
+	var $mask = $('<div style="position:fixed;width:100%;height:100%;top:0;left:0;background:#000;opacity:0.3;z-index:99999"></div>');
+	function idle(){
+		$mask.appendTo('body');
+		idleState = true;
+	};
+	function clearIdle(){
+		$mask.remove();
+	};
+	$(document).bind('mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick', function () {
+		clearTimeout(idleTimer);
+		(idleState == true) && clearIdle();
+		idleState = false;
+		idleTimer = setTimeout(idle, 10000);
+	});
+	$("body").trigger("mousemove");	
