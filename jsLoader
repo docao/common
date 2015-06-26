@@ -1,61 +1,60 @@
 var Loader = function () {
 
-	var _scripts = [];
-	var _idx = -1;
-	var _eidx = 0;
-	var _callback = null;
+	var _scripts = {};
+	var _css = {};
+	
+	var _head = document.getElementsByTagName('head')[0];
+	var _body = document.getElementsByTagName('body')[0];
 
-	var _loadJs = function (scripts, callback) {
-		if(typeof scripts == 'string') scripts = [scripts];
-		if(scripts.length > 0) {
-			_idx = -1;
-			_eidx = scripts.length - 1;
-			_callback = (typeof callback == 'function' ? callback : null);
-			for (var i = 0; i < scripts.length; i++) {
-				var script = scripts[i];
-				++_idx;
-				_writeJs(script);
-			}
-		}
-    };
+	var _addScript = function (script, callback) {
+		if(!_scripts[script]) _scripts[script] = [];
+		if(typeof callback == 'function') (_scripts[script]).push(callback);
+		return this;
+	};
 
-	var _loaded = function () {
-        if (_idx >= _eidx) {
-			if(_callback) _callback.call();
-			_idx = -1;
-			_eidx = 0;
-			_callback = null;
-		}
-    };
+	var _addStyle = function (style) {
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = style;
+		_head.appendChild(link);
+	};
 
-	var _writeJs = function (src) {
-		if(_scripts.indexOf(script) != -1) {
-			_loaded();
-			return;
+	var _writeScripts = function () {
+		for(var _script in _scripts) {
+			_writeScript(_script, _scripts[_script]);
 		}
+	};
+
+	var _writeScript = function (src, callbacks) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.async = true;
         script.src = src;
+		var callback = function(){
+			for(var i in callbacks) {
+				callbacks[i].call();
+			}
+		};
 		if (script.readyState) { //IE
 			script.onreadystatechange = function () {
 				if (script.readyState == 'loaded' || script.readyState == 'complete') {
 					script.onreadystatechange = null;
-					_loaded();
+					callback();
 				}
 			}
-		} else { //Others
-			script.onload = function () {
-				_loaded();
-			};
+		} else { //OTHERS
+			script.onload = callback;
 		}
-        var body = document.getElementsByTagName('body')[0];
-        body.appendChild(script);
-		_scripts.push(src);
+        _body.appendChild(script);
     };
 
-	this.loadJs = _loadJs;
 	this.getScripts = function() {
-		return _scripts.slice(0);
+		var scripts = [];
+		for(var _script in _scripts) scripts.push(_script);
+		return scripts;
 	}
+	this.addScript = _addScript;
+	this.flushScripts = _writeScripts;
+	this.addStyle = _addStyle;
 }
