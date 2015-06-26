@@ -1,7 +1,6 @@
 var Loader = function () {
 
 	var _scripts = {};
-	var _css = {};
 	
 	var _head = document.getElementsByTagName('head')[0];
 	var _body = document.getElementsByTagName('body')[0];
