@@ -25,16 +25,17 @@ var Loader = function () {
 		}
 	};
 
-	var _writeScript = function (src, callbacks) {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.src = src;
+	var _writeScript = function (src, callbacks) {        
 		var callback = function(){
 			for(var i in callbacks) {
 				callbacks[i].call();
 			}
 		};
+		if(!src) return callback();
+		var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = src;
 		if (script.readyState) { //IE
 			script.onreadystatechange = function () {
 				if (script.readyState == 'loaded' || script.readyState == 'complete') {
@@ -53,6 +54,7 @@ var Loader = function () {
 		for(var _script in _scripts) scripts.push(_script);
 		return scripts;
 	}
+	
 	this.addScript = _addScript;
 	this.flushScripts = _writeScripts;
 	this.addStyle = _addStyle;
