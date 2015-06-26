@@ -14,13 +14,13 @@ var Loader = function () {
 			for (var i = 0; i < scripts.length; i++) {
 				var script = scripts[i];
 				++_idx;
-				_writeJs(script);				
+				_writeJs(script);
 			}
 		}
     };
 
-	var _loaded = function () {        
-        if (_idx >= _eidx) {			
+	var _loaded = function () {
+        if (_idx >= _eidx) {
 			if(_callback) _callback.call();
 			_idx = -1;
 			_eidx = 0;
@@ -29,13 +29,16 @@ var Loader = function () {
     };
 
 	var _writeJs = function (src) {
-		if(_scripts.indexOf(script) != -1) return;
+		if(_scripts.indexOf(script) != -1) {
+			_loaded();
+			return;
+		}
         var script = document.createElement('script');
-        script.type = "text/javascript";
+        script.type = 'text/javascript';
         script.async = true;
         script.src = src;
 		if (script.readyState) { //IE
-			script.onreadystatechange = function (e) {
+			script.onreadystatechange = function () {
 				if (script.readyState == 'loaded' || script.readyState == 'complete') {
 					script.onreadystatechange = null;
 					_loaded();
