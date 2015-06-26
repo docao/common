@@ -1,4 +1,5 @@
 var Loader = function () {
+	'use strict';
 
 	var _scripts = {};
 	
