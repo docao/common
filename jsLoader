@@ -6,6 +6,10 @@ var Loader = function () {
 	var _body = document.getElementsByTagName('body')[0];
 
 	var _addScript = function (script, callback) {
+		if(typeof script == 'function') {
+			callback = script;
+			script = '';
+		}
 		if(!_scripts[script]) _scripts[script] = [];
 		if(typeof callback == 'function') (_scripts[script]).push(callback);
 		return this;
@@ -32,6 +36,7 @@ var Loader = function () {
 			}
 		};
 		if(!src) return callback();
+		
 		var script = document.createElement('script');
         script.type = 'text/javascript';
         script.async = true;
