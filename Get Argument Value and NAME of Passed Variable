@@ -1,0 +1,8 @@
+(function(){
+  var showMe = function(s){
+    var varname = arguments.callee.caller.toString().match(/showMe\((\S)\)/)[1];
+    alert(varname + ' = '+ s);
+  }
+  x = 1;
+  showMe(x);
+})()
