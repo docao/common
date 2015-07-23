@@ -1,3 +1,5 @@
+// http://stackoverflow.com/questions/1009911/javascript-get-argument-value-and-name-of-passed-variable
+
 (function(){
   var showMe = function(s){
     var varname = arguments.callee.caller.toString().match(/showMe\((\S)\)/)[1];
